@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import TampilanProduk from "../views/product";
-import fetcher from "../utils/swr/fetcher";
+import TampilanProduk from "../../views/product";
+import fetcher from "../../utils/swr/fetcher";
 
 type ProductType = {
     id: string;

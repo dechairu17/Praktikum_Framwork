@@ -1,3 +1,3 @@
-import HalamanProduk from "../views/product/[id]";
+import HalamanProduk from "../../views/product/[id]";
 
 export default HalamanProduk;
