@@ -1,5 +1,6 @@
-import ProdukPage from "../../views/produk";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
+import TampilanProduk from "../views/product";
+import fetcher from "../utils/swr/fetcher";
 
 type ProductType = {
     id: string;
@@ -7,39 +8,16 @@ type ProductType = {
     price: number;
     size: string;
     category: string;
+    image: string;
 };
 
 const kategori = () => {
-    const [products, setProducts] = useState<ProductType[]>([]);
-
-    const fetchProducts = () => {
-        fetch("/api/produk")
-            .then((response) => response.json())
-            .then((responsedata) => {
-                //console.log("Data produk:", responsedata.data);
-                setProducts(responsedata.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching produk:", error);
-            });
-    };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    const { data, error } = useSWR("/api/produk", fetcher);
+    const products: ProductType[] | null = error ? [] : data?.data || null;
 
     return (
         <div>
-            <h1>Daftar Produk</h1>
-            <button onClick={fetchProducts}>Refresh Data</button>
-            {products.map((product: ProductType) => (
-                <div key={product.id}>
-                    <h2>{product.name}</h2>
-                    <p>Harga: {product.price}</p>
-                    <p>Ukuran: {product.size}</p>
-                    <p>Kategori: {product.category}</p>
-                </div>
-            ))}
+            <TampilanProduk products={products} />
         </div>
     );
 };
