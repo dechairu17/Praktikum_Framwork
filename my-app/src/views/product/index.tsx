@@ -1,4 +1,5 @@
 import styles from "../../pages/produk/product.module.scss";
+import Link from "next/link";
 
 type ProductType = {
     id: string;
@@ -32,25 +33,23 @@ const TampilanProduk = ({ products }: { products: ProductType[] | null }) => {
                     products.map((product: ProductType) => {
                         const price = Number(product.price ?? 0);
                         const formattedPrice = new Intl.NumberFormat("id-ID").format(price);
+                        
 
                         return (
-                            <div key={product.id} className={styles.produk_content_item}>
+                            <Link href={`/produk/${product.id}`} key={product.id} className={styles.produk_content_item}>
                                 <div className={styles.produk_content_item_image}>
                                     <img src={product.image} alt={product.name} width={200} />
                                 </div>
                                 <h4 className={styles.produk_content_item_name}>
                                     {product.name}
                                 </h4>
+                                <p className={styles.produk_content_item_category}>
+                                    {product.category}
+                                </p>
                                 <p className={styles.produk_content_item_price}>
                                     Rp {formattedPrice}
                                 </p>
-                                <p className={styles.produk_content_item_size}>
-                                    Ukuran: {product.size}
-                                </p>
-                                <p className={styles.produk_content_item_category}>
-                                    Kategori: {product.category}
-                                </p>
-                            </div>
+                            </Link>
                         );
                     })
                 ) : (
